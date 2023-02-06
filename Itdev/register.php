@@ -51,9 +51,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $agree = $_POST['agree'];
 
     // Validate the form data here...
+    // Check if the username is not empty
+if (empty($username)) {
+    $error_message = 'Username is required';
+}
 
+// Check if the email is not empty and is a valid email address
+if (empty($email)) {
+    $error_message = 'Email is required';
+} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $error_message = 'Email is not valid';
+}
+
+// Check if the password is not empty and is at least 6 characters long
+if (empty($password)) {
+    $error_message = 'Password is required';
+} elseif (strlen($password) < 6) {
+    $error_message = 'Password must be at least 6 characters long';
+}
+
+// Check if the two passwords match
+if ($password != $password2) {
+    $error_message = 'Passwords do not match';
+}
+
+// Check if the user agreed with the terms of services
+if (empty($agree) || $agree != 'yes') {
+    $error_message = 'You must agree with the terms of services';
+}
+
+// If there is an error message, stop the script and display the error message
+if (isset($error_message)) {
+    echo $error_message;
+    exit;
+}
+
+--------------------------------------------------------------------
     // If the form data is valid, then send the email
-    if (/* form data is valid */) {
+    if () {
         // Use PHPMailer to send the email
         use PHPMailer\PHPMailer\PHPMailer;
         use PHPMailer\PHPMailer\Exception;
